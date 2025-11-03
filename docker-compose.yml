@@ -23,13 +23,13 @@ services:
   # --- FRONTEND (NEXT.JS) ---
   web:
     build:
-      context: ./apps/web
+      context: ./apps/view
       dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
     volumes:
       # Monta o código local no container
-      - ./apps/web:/app
+      - ./apps/view:/app
       # Use volumes nomeados para node_modules e .next para preservar
       # os arquivos gerados durante o build da imagem e evitar
       # que o bind-mount do host sobrescreva essas pastas.

@@ -76,3 +76,8 @@ coverage/
 
 # OneDrive temp files
 ~$*
+
+# pnpm store (local cache created by pnpm/pnpm-workspace)
+.pnpm-store/
+**/.pnpm-store/
+**/.pnpm-store/**
