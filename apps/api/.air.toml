@@ -1,0 +1,17 @@
+# Configuração raiz
+root = "."
+tmp_dir = "tmp"
+
+[build]
+# Comando para compilar seu app
+cmd = "go build -o ./tmp/main ./cmd/server/main.go"
+# O binário que o 'air' deve executar
+bin = "./tmp/main"
+# Pastas/arquivos para assistir
+include_ext = ["go", "toml"]
+exclude_dir = ["tmp", "vendor"]
+# Delay para reiniciar
+delay = 1000 # 1s
+
+[log]
+level = "info"

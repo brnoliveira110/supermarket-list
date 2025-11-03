@@ -1,0 +1,27 @@
+# Usamos a imagem oficial do Go
+FROM golang:1.25.3-alpine
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Instala o 'air' (para hot-reload)
+# O repositório mudou de path — instalar via o novo module path
+RUN go install github.com/air-verse/air@latest
+
+# Copia os arquivos de dependência do Go
+# (Vamos criar esses arquivos logo em seguida)
+COPY go.mod go.sum ./
+
+# Baixa as dependências
+RUN go mod download
+
+# Copia o resto do código-fonte
+# O volume do docker-compose vai sobrescrever isso, 
+# mas é bom para o build inicial.
+COPY . .
+
+# Expõe a porta que o Gin vai usar
+EXPOSE 8080
+
+# Roda o 'air', que vai assistir por mudanças e reiniciar o servidor
+CMD ["air"]
