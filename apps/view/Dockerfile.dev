@@ -1,0 +1,27 @@
+FROM node:20-alpine
+
+# Instala o pnpm globalmente
+RUN npm install -g pnpm
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia os arquivos de dependência
+# (O pnpm vai buscar na raiz do monorepo, mas o contexto é 'apps/web')
+COPY package.json pnpm-lock.yaml* ./
+
+# Instala as dependências
+# Força o pnpm a hoistar dependências para um layout "node_modules" mais convencional
+RUN pnpm install --shamefully-hoist
+
+# Copia o resto do código
+COPY . .
+
+# Expõe a porta 3000 do Next.js
+EXPOSE 3000
+
+# Ao usar bind-mount do código do host em /app, o diretório node_modules da
+# imagem pode ser sobrescrito. Para garantir que o Next esteja disponível
+# no container de desenvolvimento, instalamos dependências na inicialização
+# caso não existam, e então rodamos o servidor.
+CMD ["sh", "-c", "pnpm install --shamefully-hoist && pnpm dev"]
